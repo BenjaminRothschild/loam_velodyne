@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1.3)
 project(loam_velodyne)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -8,7 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  tf)
+  tf
+  pcl_conversions)
 
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
@@ -20,11 +21,16 @@ include_directories(
 	${PCL_INCLUDE_DIRS})
 
 catkin_package(
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs tf pcl_conversions
   DEPENDS EIGEN3 PCL
   INCLUDE_DIRS include
   LIBRARIES loam
 )
+
+## Compile as C++14, supported in ROS Kinetic and newer
+# set_property(TARGET invz_player PROPERTY CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions( -march=native )
 
